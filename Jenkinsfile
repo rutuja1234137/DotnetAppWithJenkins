@@ -29,6 +29,15 @@ pipeline {
                 bat "dotnet publish --no-restore --configuration Release --output .\\publish"
             }
         }
+ stage("Deployment") {
+            steps {
+                bat '''
+                        if exist "C:\\inetpub\\wwwroot\\WebApp" rmdir /q /s "C:\\inetpub\\wwwroot\\WebApp"
+                        mkdir "C:\\inetpub\\wwwroot\\WebApp"
+                    '''
+                bat "C:\\Windows\\System32\\xcopy.exe /E /Y /I publish\\* C:\\inetpub\\wwwroot\\WebApp\\"
+            }
+        }
 
 
     }
